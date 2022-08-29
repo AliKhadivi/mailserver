@@ -15,7 +15,7 @@ networks:
 
 services:
   traefik:
-    image: traefik:1.7-alpine
+    image: traefik:2.8
     restart: ${RESTART_MODE}
     ports:
       - "80:80"
@@ -33,7 +33,7 @@ services:
       - http_network
 
   mailserver:
-    image: hardware/mailserver:${MAILSERVER_DOCKER_TAG}
+    image: AliKhadivi/mailserver:${MAILSERVER_DOCKER_TAG}
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}                    # Mail server A/MX/FQDN & reverse PTR = mail.domain.tld.
     hostname: ${MAILSERVER_HOSTNAME}
@@ -78,11 +78,11 @@ services:
       - http_network
 
   # Administration interface
-  # https://github.com/hardware/postfixadmin
+  # https://github.com/AliKhadivi/postfixadmin
   # http://postfixadmin.sourceforge.net/
-  # Configuration : https://github.com/hardware/mailserver/wiki/Postfixadmin-initial-configuration
+  # Configuration : https://github.com/AliKhadivi/mailserver/wiki/Postfixadmin-initial-configuration
   postfixadmin:
-    image: hardware/postfixadmin
+    image: AliKhadivi/postfixadmin
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}
     hostname: ${MAILSERVER_HOSTNAME}
@@ -101,9 +101,9 @@ services:
       - http_network
 
   # Webmail (Optional)
-  # https://github.com/hardware/rainloop
+  # https://github.com/AliKhadivi/rainloop
   # https://www.rainloop.net/
-  # Configuration : https://github.com/hardware/mailserver/wiki/Rainloop-initial-configuration
+  # Configuration : https://github.com/AliKhadivi/mailserver/wiki/Rainloop-initial-configuration
   rainloop:
     image: hardware/rainloop
     restart: ${RESTART_MODE}
@@ -124,7 +124,7 @@ services:
   # Authoritative DNS server (Optional)
   # https://github.com/hardware/nsd-dnssec
   # https://www.nlnetlabs.nl/projects/nsd/
-  # Configuration : https://github.com/hardware/mailserver/wiki/NSD-initial-configuration
+  # Configuration : https://github.com/AliKhadivi/mailserver/wiki/NSD-initial-configuration
   # nsd:
   #   image: hardware/nsd-dnssec
   #   restart: ${RESTART_MODE}
