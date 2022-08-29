@@ -80,7 +80,7 @@ services:
   # Administration interface
   # http://postfixadmin.sourceforge.net/
   postfixadmin:
-    image: postfixadmin-image:latest
+    image: postfixadmin:3
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}
     hostname: ${MAILSERVER_HOSTNAME}
