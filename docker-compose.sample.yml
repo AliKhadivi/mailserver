@@ -91,7 +91,7 @@ services:
       - traefik.docker.network=http_network
     environment:
       POSTFIXADMIN_DB_TYPE: mysqli
-      POSTFIXADMIN_DB_HOST: mariadbdb
+      POSTFIXADMIN_DB_HOST: mariadb
       POSTFIXADMIN_DB_USER: postfix
       POSTFIXADMIN_DB_NAME: postfix
       POSTFIXADMIN_DB_PASSWORD: "${DATABASE_USER_PASSWORD}"
