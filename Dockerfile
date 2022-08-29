@@ -1,7 +1,7 @@
-FROM hardware/debian-mail-overlay:latest
+FROM AliKhadivi/debian-mail-overlay:latest
 
 LABEL description "Simple and full-featured mail server using Docker" \
-      maintainer="Hardware <contact@meshup.net>"
+      maintainer="Ali Khadivi <khadiviali39@gmail.com>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
