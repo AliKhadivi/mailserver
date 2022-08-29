@@ -1,4 +1,4 @@
-FROM AliKhadivi/debian-mail-overlay:latest
+FROM alikhadivi/debian-mail-overlay:latest
 
 LABEL description "Simple and full-featured mail server using Docker" \
       maintainer="Ali Khadivi <khadiviali39@gmail.com>"
