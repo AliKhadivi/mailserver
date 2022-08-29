@@ -33,7 +33,7 @@ services:
       - http_network
 
   mailserver:
-    image: AliKhadivi/mailserver:${MAILSERVER_DOCKER_TAG}
+    image: alikhadivi/mailserver:${MAILSERVER_DOCKER_TAG}
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}                    # Mail server A/MX/FQDN & reverse PTR = mail.domain.tld.
     hostname: ${MAILSERVER_HOSTNAME}
@@ -82,7 +82,7 @@ services:
   # http://postfixadmin.sourceforge.net/
   # Configuration : https://github.com/AliKhadivi/mailserver/wiki/Postfixadmin-initial-configuration
   postfixadmin:
-    image: AliKhadivi/postfixadmin
+    image: alikhadivi/postfixadmin
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}
     hostname: ${MAILSERVER_HOSTNAME}
