@@ -98,6 +98,7 @@ services:
       POSTFIXADMIN_SMTP_SERVER: mailserver
       POSTFIXADMIN_SMTP_PORT: 25
       POSTFIXADMIN_ENCRYPT: md5crypt
+      POSTFIXADMIN_SETUP_PASSWORD: "${POSTFIXADMIN_SETUP_PASSWORD}"
     depends_on:
       - mailserver
       - mariadb
@@ -114,8 +115,8 @@ services:
     environment:
       - ROUNDCUBEMAIL_DB_TYPE=sqlite
       - ROUNDCUBEMAIL_SKIN=elastic
-      - ROUNDCUBEMAIL_DEFAULT_HOST=tls://mail.example.org
-      - ROUNDCUBEMAIL_SMTP_SERVER=tls://mail.example.org
+      - ROUNDCUBEMAIL_DEFAULT_HOST=tls://mailserver
+      - ROUNDCUBEMAIL_SMTP_SERVER=tls://mailserver
     restart: ${RESTART_MODE}
     labels:
       - traefik.enable=true
