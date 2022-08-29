@@ -23,7 +23,6 @@
 ### Summary
 
 - [AliKhadivi/mailserver](#AliKhadiviMailServer)
-  - [Chat & questions](#chat--questions)
   - [Build](#build)
   - [Docker image](#docker-image)
   - [Summary](#summary)
@@ -41,8 +40,6 @@
     - [2 - Postfixadmin installation](#2---postfixadmin-installation)
     - [3 - Rainloop installation (optional)](#3---rainloop-installation-optional)
     - [4 - Done, congratulation ! :tada:](#4---done-congratulation--tada)
-  - [Rancher Catalog](#rancher-catalog)
-  - [Ansible Playbooks](#ansible-playbooks)
   - [Environment variables](#environment-variables)
   - [Automatic GPG encryption of all your emails](#automatic-gpg-encryption-of-all-your-emails)
     - [How does it work ?](#how-does-it-work-)
@@ -73,7 +70,6 @@
   - [Migration from 1.0 to 1.1](#migration-from-10-to-11)
   - [Community projects](#community-projects)
   - [Some useful Thunderbird extensions](#some-useful-thunderbird-extensions)
-  - [Donation](#donation)
 
 ### System Requirements
 
@@ -258,26 +254,6 @@ You can check the startup logs with this command :
 2017-08-26T11:07:03.303536+00:00 mail root: s6-supervise : spawning dovecot process
 ...
 ```
-
-<p align="right"><a href="#summary">Back to table of contents :arrow_up_small:</a></p>
-
-### Rancher Catalog
-
-![rancher-logo](https://i.imgur.com/R9AArJN.png)
-
-https://github.com/AliKhadivi/mailserver-rancher
-
-This catalog provides a basic template to easily deploy an email server based on [AliKhadivi/mailserver](https://github.com/AliKhadivi/mailserver) very quickly. To use it, just add this repository to your Rancher system as a catalog in `Admin > Settings` page and follow [the readme](https://github.com/AliKhadivi/mailserver-rancher/blob/master/README.md). This catalog has been initiated by [@MichelDiz](https://github.com/MichelDiz).
-
-![rancher-ui](https://i.imgur.com/kdJxAiN.png)
-
-<p align="right"><a href="#summary">Back to table of contents :arrow_up_small:</a></p>
-
-### Ansible Playbooks
-
-![logo](https://i.imgur.com/tvTG8pN.png)
-
-If you use Ansible, I recommend you to go to see [@ksylvan](https://github.com/ksylvan) playbooks here : https://github.com/ksylvan/docker-mail-server
 
 <p align="right"><a href="#summary">Back to table of contents :arrow_up_small:</a></p>
 
@@ -1069,24 +1045,6 @@ NOQUEUE: reject: 554 5.7.1 <john.doe@domain.tld>: Sender address rejected: Acces
 - s6 2.8.0.1
 - Rsyslog 8.24.0
 - ManageSieve server
-
-<p align="right"><a href="#summary">Back to table of contents :arrow_up_small:</a></p>
-
-### Migration from 1.0 to 1.1
-
-If you still use 1.0 version (bundled with Spamassassin, Amavisd...etc) which was available with the `latest` tag, you can follow the migration steps here :
-
-https://github.com/AliKhadivi/mailserver/wiki/Migrating-from-1.0-stable-to-1.1-stable
-
-Or stay with `1.0-legacy` tag (not recommended).
-
-<p align="right"><a href="#summary">Back to table of contents :arrow_up_small:</a></p>
-
-### Community projects
-
-- [ksylvan/docker-mail-server](https://github.com/ksylvan/docker-mail-server) : Ansible playbooks to easily deploy AliKhadivi/mailserver.
-- [rubentrancoso/mailserver-quicksetup](https://github.com/rubentrancoso/mailserver-quicksetup) : Automatic AliKhadivi/mailserver deployment on a digitalocean droplet.
-- [NickBusey/HomelabOS](https://gitlab.com/NickBusey/HomelabOS) - Automatic deployment on home servers with bastion host relay
 
 <p align="right"><a href="#summary">Back to table of contents :arrow_up_small:</a></p>
 
