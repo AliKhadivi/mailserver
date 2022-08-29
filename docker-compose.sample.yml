@@ -146,7 +146,7 @@ services:
   # https://github.com/docker-library/mariadb
   # https://mariadb.org/
   mariadb:
-    image: mariadb:10.2
+    image: mariadb:10
     restart: ${RESTART_MODE}
     # Info : These variables are ignored when the volume already exists (if databases was created before).
     environment:
