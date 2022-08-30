@@ -12,54 +12,31 @@ networks:
     external: true
   mail_network:
     external: false
-
 services:
-  traefik:
-    image: traefik:2.8
-    restart: ${RESTART_MODE}
-    ports:
-      - "80:80"
-      - "443:443"
-    labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:mail.${MAILSERVER_DOMAIN}
-      - traefik.port=8080
-      - traefik.docker.network=http_network
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${VOLUMES_ROOT_PATH}/traefik/traefik.toml:/traefik.toml:ro
-      - ${VOLUMES_ROOT_PATH}/traefik/acme:/etc/traefik/acme
-    networks:
-      - http_network
-
   mailserver:
     image: alikhadivi/mailserver:${MAILSERVER_DOCKER_TAG}
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN} # Mail server A/MX/FQDN & reverse PTR = mail.domain.tld.
     hostname: ${MAILSERVER_HOSTNAME}
-    labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:spam.${MAILSERVER_DOMAIN}
-      - traefik.port=11334
-      - traefik.docker.network=http_network
     # extra_hosts:                          - Required for external database (on other server or for local databases on host without docker)
     #  - "mariadb:xx.xx.xx.xx"              - Replace with IP address of MariaDB server
     #  - "redis:xx.xx.xx.xx"                - Replace with IP address of Redis server
     ports:
       - "25:25"       # SMTP                - Required
-    # - "110:110"     # POP3       STARTTLS - Optional - For webmails/desktop clients
+      - "110:110"     # POP3       STARTTLS - Optional - For webmails/desktop clients
       - "143:143"     # IMAP       STARTTLS - Optional - For webmails/desktop clients
-    # - "465:465"     # SMTPS      SSL/TLS  - Optional - Enabled for compatibility reason, otherwise disabled
+      - "465:465"     # SMTPS      SSL/TLS  - Optional - Enabled for compatibility reason, otherwise disabled
       - "587:587"     # Submission STARTTLS - Optional - For webmails/desktop clients
       - "993:993"     # IMAPS      SSL/TLS  - Optional - For webmails/desktop clients
-    # - "995:995"     # POP3S      SSL/TLS  - Optional - For webmails/desktop clients
+      - "995:995"     # POP3S      SSL/TLS  - Optional - For webmails/desktop clients
       - "4190:4190"   # SIEVE      STARTTLS - Optional - Recommended for mail filtering
+      - "7513:11334"
     environment:
       - DBPASS=${DATABASE_USER_PASSWORD}       # MariaDB database password (required)
       - RSPAMD_PASSWORD=${RSPAMD_PASSWORD}     # Rspamd WebUI password (required)
+      - ENABLE_POP3=true                       # Enable POP3 protocol
     # - ADD_DOMAINS=aa.tld, www.bb.tld...      # Add additional domains separated by commas (needed for dkim keys etc.)
     # - DEBUG_MODE=true                        # Enable Postfix, Dovecot, Rspamd and Unbound verbose logging
-    # - ENABLE_POP3=true                       # Enable POP3 protocol
     # - ENABLE_FETCHMAIL=true                  # Enable fetchmail forwarding
     # - DISABLE_RATELIMITING=false             # Enable ratelimiting policy
     # - DISABLE_CLAMAV=true                    # Disable virus scanning
@@ -69,6 +46,7 @@ services:
     # Full list : https://github.com/AliKhadivi/mailserver#environment-variables
     #
     volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - ${VOLUMES_ROOT_PATH}/mail:/var/mail
     depends_on:
       - mariadb
@@ -80,15 +58,12 @@ services:
   # Administration interface
   # http://postfixadmin.sourceforge.net/
   postfixadmin:
-    image: postfixadmin:3
+    image: postfixadmin:${ROUNDCUBE_DOCKER_TAG}
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}
     hostname: ${MAILSERVER_HOSTNAME}
-    labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:postfixadmin.${MAILSERVER_DOMAIN}
-      - traefik.port=80
-      - traefik.docker.network=http_network
+    ports:
+      - 7512:80
     environment:
       POSTFIXADMIN_DB_TYPE: mysqli
       POSTFIXADMIN_DB_HOST: mariadb
@@ -98,7 +73,6 @@ services:
       POSTFIXADMIN_SMTP_SERVER: mailserver
       POSTFIXADMIN_SMTP_PORT: 25
       POSTFIXADMIN_ENCRYPT: md5crypt
-      POSTFIXADMIN_SETUP_PASSWORD: "${POSTFIXADMIN_SETUP_PASSWORD}"
     depends_on:
       - mailserver
       - mariadb
@@ -108,51 +82,38 @@ services:
 
   # Webmail (Optional)
   # Documents: https://hub.docker.com/r/roundcube/roundcubemail/
-  roundcubemail:
-    image: roundcube/roundcubemail:latest
+  roundcube:
+    image: roundcube/roundcubemail:${ROUNDCUBE_DOCKER_TAG}
+    domainname: ${MAILSERVER_DOMAIN}
+    hostname: webmail.${MAILSERVER_DOMAIN}
     ports:
-      - 9002:80
+      - 7511:80
     environment:
+      - ROUNDCUBEMAIL_DB_TYPE=mysql
+      - ROUNDCUBEMAIL_DB_HOST=webmaildb
+      - ROUNDCUBEMAIL_DB_NAME=roundcube
+      - ROUNDCUBEMAIL_DB_USER=roundcube
+      - ROUNDCUBEMAIL_DB_PASSWORD=${WEBMAIL_DATABASE_USER_PASSWORD}
       - ROUNDCUBEMAIL_DB_TYPE=sqlite
       - ROUNDCUBEMAIL_SKIN=elastic
-      - ROUNDCUBEMAIL_DEFAULT_HOST=tls://mailserver
-      - ROUNDCUBEMAIL_SMTP_SERVER=tls://mailserver
+      - ROUNDCUBEMAIL_DEFAULT_HOST=tls://${MAILSERVER_HOSTNAME}.${MAILSERVER_DOMAIN}
+      - ROUNDCUBEMAIL_SMTP_SERVER=tls://${MAILSERVER_HOSTNAME}.${MAILSERVER_DOMAIN}
     restart: ${RESTART_MODE}
-    labels:
-      - traefik.enable=true
-      - traefik.port=80
-      - traefik.frontend.rule=Host:webmail.${MAILSERVER_DOMAIN}
-      - traefik.docker.network=http_network
     volumes:
       - ${VOLUMES_ROOT_PATH}/roundcube/www:/var/www/html
       - ${VOLUMES_ROOT_PATH}/roundcube/db:/var/roundcube/db
     depends_on:
       - mailserver
-      - mariadb
+      - webmaildb
     networks:
       - mail_network
       - http_network
-
-  # Authoritative DNS server (Optional)
-  # https://github.com/hardware/nsd-dnssec
-  # https://www.nlnetlabs.nl/projects/nsd/
-  # Configuration : https://github.com/AliKhadivi/mailserver/wiki/NSD-initial-configuration
-  # nsd:
-  #   image: hardware/nsd-dnssec
-  #   restart: ${RESTART_MODE}
-  #   ports:
-  #     - "53:53"
-  #     - "53:53/udp"
-  #   volumes:
-  #     - ${VOLUMES_ROOT_PATH}/nsd/conf:/etc/nsd
-  #     - ${VOLUMES_ROOT_PATH}/nsd/zones:/zones
-  #     - ${VOLUMES_ROOT_PATH}/nsd/db:/var/db/nsd
 
   # Database
   # https://github.com/docker-library/mariadb
   # https://mariadb.org/
   mariadb:
-    image: mariadb:10
+    image: mariadb:${MAIRADB_DOCKER_TAG}
     restart: ${RESTART_MODE}
     # Info : These variables are ignored when the volume already exists (if databases was created before).
     environment:
@@ -165,11 +126,26 @@ services:
     networks:
       - mail_network
 
+  webmaildb:
+    image: mariadb:${MAIRADB_DOCKER_TAG}
+    restart: ${RESTART_MODE}
+    # Info : These variables are ignored when the volume already exists (if databases was created before).
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=roundcube
+      - MYSQL_USER=roundcube
+      - MYSQL_PASSWORD=${WEBMAIL_DATABASE_USER_PASSWORD}
+    volumes:
+      - ${VOLUMES_ROOT_PATH}/mysql/db:/var/lib/mysql
+    networks:
+      - mail_network
+
+
   # Database
   # https://github.com/docker-library/redis
   # https://redis.io/
   redis:
-    image: redis:7-alpine
+    image: redis:${REDIS_DOCKER_TAG}
     restart: ${RESTART_MODE}
     command: redis-server --appendonly yes
     volumes:
