@@ -114,6 +114,8 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 FROM base AS final
 LABEL description "Simple and full-featured mail server using Docker" \
       maintainer="Ali Khadivi <khadiviali39@gmail.com>"
+
+ARG DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y -q --no-install-recommends \
