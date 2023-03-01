@@ -1,5 +1,4 @@
 FROM ubuntu:22.04 AS base
-# FROM debian:bullseye-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_CORES
@@ -10,7 +9,7 @@ ARG S6_VER=2.11.3.0
 ARG RSPAMD_VER=3.4
 ARG GUCCI_VER=1.6.6
 
-LABEL description "Simple and full-featured mail server using Docker" \
+LABEL description="s6 + rspamd image based on Ubuntu" \
       maintainer="Ali Khadivi <khadiviali39@gmail.com>" \
       rspamd_version="Rspamd v$RSPAMD_VER built from source" \
       s6_version="s6 v$S6_VER built from source"
@@ -106,13 +105,8 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
  && apt-get clean \
  && rm -rf /tmp/* /var/lib/apt/lists/* /var/cache/debconf/*-old
 
-
-# LABEL description "Simple and full-featured mail server using Docker" \
-#       maintainer="Ali Khadivi <khadiviali39@gmail.com>"
-
-# ARG DEBIAN_FRONTEND=noninteractive
 FROM base AS final
-LABEL description "Simple and full-featured mail server using Docker" \
+LABEL description="Simple and full-featured mail server using Docker" \
       maintainer="Ali Khadivi <khadiviali39@gmail.com>"
 
 ARG DEBIAN_FRONTEND=noninteractive
