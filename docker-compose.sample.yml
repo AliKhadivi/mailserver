@@ -58,7 +58,7 @@ services:
   # Administration interface
   # http://postfixadmin.sourceforge.net/
   postfixadmin:
-    image: postfixadmin:${ROUNDCUBE_DOCKER_TAG}
+    image: postfixadmin:${POSTFIXADMIN_DOCKER_TAG}
     restart: ${RESTART_MODE}
     domainname: ${MAILSERVER_DOMAIN}
     hostname: ${MAILSERVER_HOSTNAME}
@@ -73,6 +73,7 @@ services:
       POSTFIXADMIN_SMTP_SERVER: mailserver
       POSTFIXADMIN_SMTP_PORT: 25
       POSTFIXADMIN_ENCRYPT: md5crypt
+      POSTFIXADMIN_SETUP_PASSWORD: "${POSTFIXADMIN_SETUP_PASSWORD}"
     depends_on:
       - mailserver
       - mariadb
@@ -94,14 +95,14 @@ services:
       - ROUNDCUBEMAIL_DB_NAME=roundcube
       - ROUNDCUBEMAIL_DB_USER=roundcube
       - ROUNDCUBEMAIL_DB_PASSWORD=${WEBMAIL_DATABASE_USER_PASSWORD}
-      - ROUNDCUBEMAIL_DB_TYPE=sqlite
+      # - ROUNDCUBEMAIL_DB_TYPE=sqlite
       - ROUNDCUBEMAIL_SKIN=elastic
       - ROUNDCUBEMAIL_DEFAULT_HOST=tls://${MAILSERVER_HOSTNAME}.${MAILSERVER_DOMAIN}
       - ROUNDCUBEMAIL_SMTP_SERVER=tls://${MAILSERVER_HOSTNAME}.${MAILSERVER_DOMAIN}
     restart: ${RESTART_MODE}
     volumes:
       - ${VOLUMES_ROOT_PATH}/roundcube/www:/var/www/html
-      - ${VOLUMES_ROOT_PATH}/roundcube/db:/var/roundcube/db
+      # - ${VOLUMES_ROOT_PATH}/roundcube/db:/var/roundcube/db
     depends_on:
       - mailserver
       - webmaildb
@@ -136,7 +137,7 @@ services:
       - MYSQL_USER=roundcube
       - MYSQL_PASSWORD=${WEBMAIL_DATABASE_USER_PASSWORD}
     volumes:
-      - ${VOLUMES_ROOT_PATH}/mysql/db:/var/lib/mysql
+      - ${VOLUMES_ROOT_PATH}/roundcube/db:/var/lib/mysql
     networks:
       - mail_network
 

@@ -120,7 +120,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     postfix postfix-pgsql postfix-mysql postfix-ldap postfix-pcre libsasl2-modules \
     dovecot-core dovecot-imapd dovecot-lmtpd dovecot-pgsql dovecot-mysql dovecot-ldap dovecot-sieve dovecot-managesieved dovecot-pop3d \
     fetchmail libdbi-perl libdbd-pg-perl libdbd-mysql-perl liblockfile-simple-perl \
-    clamav clamav-daemon clamav-libunrar \
+    clamav clamav-daemon libclamunar9 \
     python3-pip python3-setuptools python3-wheel \
     rsyslog dnsutils curl unbound jq rsync \
     inotify-tools \
