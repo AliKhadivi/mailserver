@@ -4,11 +4,11 @@ FROM ubuntu:22.04
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_CORES
 
-ARG SKALIBS_VER=2.12.0.1
-ARG EXECLINE_VER=2.9.0.1
-ARG S6_VER=2.11.1.2
-ARG RSPAMD_VER=3.2
-ARG GUCCI_VER=1.5.5
+ARG SKALIBS_VER=2.13.1.0
+ARG EXECLINE_VER=2.9.2.1
+ARG S6_VER=2.13.1.0
+ARG RSPAMD_VER=3.4
+ARG GUCCI_VER=1.6.6
 
 LABEL description "Simple and full-featured mail server using Docker" \
       maintainer="Ali Khadivi <khadiviali39@gmail.com>" \
@@ -41,7 +41,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     ${BUILD_DEPS} \
     libevent-2.1-7 \
     libglib2.0-0 \
-    libssl1.1 \
+    libssl3 \
     libmagic1 \
     liblua5.1-0 \
     libluajit-5.1-2 \
