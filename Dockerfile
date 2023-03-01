@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS base
 # FROM debian:bullseye-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -6,7 +6,7 @@ ARG BUILD_CORES
 
 ARG SKALIBS_VER=2.13.1.0
 ARG EXECLINE_VER=2.9.2.1
-ARG S6_VER=2.13.1.0
+ARG S6_VER=2.11.3.0
 ARG RSPAMD_VER=3.4
 ARG GUCCI_VER=1.6.6
 
@@ -111,6 +111,9 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 #       maintainer="Ali Khadivi <khadiviali39@gmail.com>"
 
 # ARG DEBIAN_FRONTEND=noninteractive
+FROM base AS final
+LABEL description "Simple and full-featured mail server using Docker" \
+      maintainer="Ali Khadivi <khadiviali39@gmail.com>"
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y -q --no-install-recommends \
