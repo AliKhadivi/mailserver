@@ -21,7 +21,7 @@
 
 ### Summary
 
-- [alikhadivi/mailserver](#alikhadiviMailServer)
+- [alikhadivi/mailserver](#simple-and-full-featured-mail-server-using-docker)
   - [Summary](#summary)
   - [System Requirements](#system-requirements)
     - [With MariaDB/PostgreSQL and Redis on the same host](#with-mariadbpostgresql-and-redis-on-the-same-host)
