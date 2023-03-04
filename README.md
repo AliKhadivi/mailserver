@@ -34,8 +34,8 @@
     - [Testing](#testing)
   - [Installation](#installation)
     - [1 - Prepare your environment](#1---prepare-your-environment)
-    - [2 - Postfixadmin installation](#2---postfixadmin-installation)
-    - [4 - Done, congratulation ! :tada:](#4---done-congratulation--tada)
+    - [2 - Postfixadmin installation](#2---postfixadmin-config)
+    - [3 - Done, congratulation ! :tada:](#3---done-congratulation--tada)
   - [Environment variables](#environment-variables)
   - [Automatic GPG encryption of all your emails](#automatic-gpg-encryption-of-all-your-emails)
     - [How does it work ?](#how-does-it-work-)
@@ -226,7 +226,7 @@ docker compose up -d
 ![](images/new-mailbox.png)
 
 
-#### 4 - Done, congratulation ! :tada:
+#### 3 - Done, congratulation ! :tada:
 
 At first launch, the container takes few minutes to generate SSL certificates (if needed), DKIM keypair and update clamav database, all of this takes some time (1/2 minutes).
 
