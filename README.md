@@ -34,7 +34,7 @@
     - [Testing](#testing)
   - [Installation](#installation)
     - [1 - Prepare your environment](#1---prepare-your-environment)
-    - [2 - Postfixadmin installation](#2---postfixadmin-config)
+    - [2 - Postfixadmin Config](#2---postfixadmin-config)
     - [3 - Done, congratulation ! :tada:](#3---done-congratulation--tada)
   - [Environment variables](#environment-variables)
   - [Automatic GPG encryption of all your emails](#automatic-gpg-encryption-of-all-your-emails)
