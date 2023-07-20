@@ -16,8 +16,6 @@
 - **SSL (With Certbot)** : _let's encrypt_ with auto-renewal (SAN and wildcard certificates), custom and self-signed certificates support
 - **OpenLDAP** : ldap support available
 - Supporting multiple virtual domains over MySQL/PostgreSQL backend
-- Integration tests with Travis CI
-- Automated builds on DockerHub
 
 ### Summary
 
