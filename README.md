@@ -188,7 +188,7 @@ mkdir -p /mnt/docker && cd /mnt/docker \
 ```
 Edit the `.env`, adapt to your needs, then 
 create Nginx sites and get SSL:
-``bash
+```bash
 ./ssl.sh
 ```
 
