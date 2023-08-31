@@ -20,6 +20,8 @@ export REDIS_NUMB
 export DISABLE_CLAMAV
 export DISABLE_DNS_RESOLVER
 
+export MAILSERVER_NAME
+
 FQDN=${FQDN:-$(hostname --fqdn)}
 DOMAIN=${DOMAIN:-$(hostname --domain)}
 VMAILUID=${VMAILUID:-1024}
@@ -44,6 +46,8 @@ REDIS_NUMB=${REDIS_NUMB:-0}
 
 DISABLE_CLAMAV=${DISABLE_CLAMAV:-false} # --
 DISABLE_DNS_RESOLVER=${DISABLE_DNS_RESOLVER:-false} # --
+
+MAILSERVER_NAME=${MAILSERVER_NAME:-AK Mail Server} # --
 
 if [ "$DBDRIVER" = "ldap" ]; then
   export LDAP_BIND

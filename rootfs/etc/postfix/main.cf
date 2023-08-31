@@ -2,7 +2,8 @@
 ## GENERALS SETTINGS ##
 #######################
 
-smtpd_banner         = $myhostname ESMTP $mail_name
+smtpd_banner = {{ .MAILSERVER_NAME }}
+mail_name = {{ .MAILSERVER_NAME }}
 compatibility_level  = 2
 biff                 = no
 append_dot_mydomain  = no
