@@ -223,6 +223,8 @@ _envtpl /etc/postfix/sql/virtual-alias-domain-catchall-maps.cf
 
 _envtpl /etc/postfixadmin/fetchmail.conf
 
+_envtpl /etc/dovecot/dovecot.conf
+
 _envtpl /etc/dovecot/dovecot-sql.conf.ext
 _envtpl /etc/dovecot/dovecot-dict-sql.conf.ext
 
